@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://cp6mfire2cqrl"]
+[gd_scene load_steps=41 format=3 uid="uid://cp6mfire2cqrl"]
 
 [ext_resource type="Script" path="res://Scripts/bad_monkey_1.gd" id="1_uhrf3"]
 [ext_resource type="Texture2D" uid="uid://c4wq5358v81gw" path="res://Sprites/Bad Monkey 1.png" id="2_362lu"]
@@ -188,10 +188,6 @@ animations = [{
 "speed": 8.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1ybsn"]
-radius = 16.0
-height = 78.0
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_s8n3m"]
 atlas = ExtResource("3_akurs")
 region = Rect2(0, 0, 128, 128)
@@ -275,18 +271,20 @@ animations = [{
 "speed": 20.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_def3v"]
+radius = 350.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1ybsn"]
+radius = 16.0
+height = 78.0
+
 [node name="Bad_monkey_1" type="CharacterBody2D"]
 script = ExtResource("1_uhrf3")
-metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_tyrkp")
 animation = &"Idle"
 autoplay = "Idle"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 16)
-shape = SubResource("CapsuleShape2D_1ybsn")
 
 [node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, 16)
@@ -295,3 +293,44 @@ animation = &"Shoot"
 frame = 5
 frame_progress = 1.0
 offset = Vector2(0, -20)
+
+[node name="WalkTime" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+autostart = true
+
+[node name="RayCastLeft" type="RayCast2D" parent="."]
+position = Vector2(-31, 0)
+target_position = Vector2(0, 61)
+
+[node name="RayCastRight" type="RayCast2D" parent="."]
+position = Vector2(31, 0)
+target_position = Vector2(0, 61)
+
+[node name="RayCastFLeft" type="RayCast2D" parent="."]
+rotation = 1.5708
+target_position = Vector2(1.35505e-06, 31)
+
+[node name="RayCastFRight" type="RayCast2D" parent="."]
+rotation = -1.5708
+target_position = Vector2(-1.35505e-06, 31)
+
+[node name="vision" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="vision"]
+shape = SubResource("CircleShape2D_def3v")
+
+[node name="ShootCool" type="Timer" parent="."]
+one_shot = true
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 16)
+shape = SubResource("CapsuleShape2D_1ybsn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 16)
+shape = SubResource("CapsuleShape2D_1ybsn")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

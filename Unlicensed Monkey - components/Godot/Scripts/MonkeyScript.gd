@@ -15,9 +15,10 @@ var reloading = false
 var x_knock_back = 1.5
 var y_knock_back = 3
 var bullet_count = 30
-
+var HEALTH = 100
 var shots_shot = 0
 var mag_reloaded = 0
+var healing = false
 
 
 func _physics_process(delta):
@@ -80,6 +81,9 @@ func _physics_process(delta):
 	if Input.is_action_pressed("R") and shooting == false and reloading == false:
 		reloading_gun()
 	
+	if HEALTH <= 0:
+		queue_free()
+	
 	# Handle jump.
 	if Input.is_action_pressed("Up") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
@@ -95,7 +99,14 @@ func _physics_process(delta):
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 	
+	if $HealthTick.is_stopped() and healing == false and HEALTH > 0:
+		healing = true
+		HEALTH += 1
+		$HealthTick.start()
+		healing = false
+	
 	$CanvasLayer/Ammo.value = bullet_count
+	$CanvasLayer/Health.value = HEALTH
 	
 	move_and_slide()
 	
@@ -108,3 +119,14 @@ func reloading_gun():
 	mag_reloaded += 1
 	reloading = false	
 		
+
+func _on_area_2d_area_entered(area):
+	if area.is_in_group("bullet1"):
+		HEALTH -= 12
+	elif area.is_in_group("bullet2"):
+		HEALTH -= 2
+	elif area.is_in_group("bullet3"):
+		HEALTH -= 3
+	else:
+		pass
+	

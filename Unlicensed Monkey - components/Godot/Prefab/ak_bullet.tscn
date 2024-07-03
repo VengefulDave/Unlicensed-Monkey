@@ -9,6 +9,7 @@ size = Vector2(9.5, 2)
 [node name="Ak-Bullet" type="Area2D"]
 scale = Vector2(2, 2)
 script = ExtResource("1_dy3ai")
+metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(27.5, 0)
