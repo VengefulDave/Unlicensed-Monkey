@@ -82,7 +82,14 @@ func _physics_process(delta):
 		reloading_gun()
 	
 	if HEALTH <= 0:
-		queue_free()
+		position = Vector2(450,100)
+		HEALTH = 100
+		$CanvasLayer/Elapsed_time.time += 10
+		$CanvasLayer/timeminusplus.add_theme_color_override("font_color", Color(1,0,0))
+		$CanvasLayer/timeminusplus.add_theme_font_size_override("font_size",25)
+		$CanvasLayer/timeminusplus.text = "+10"
+		await get_tree().create_timer(3).timeout
+		$CanvasLayer/timeminusplus.text = ""
 	
 	# Handle jump.
 	if Input.is_action_pressed("Up") and is_on_floor():

@@ -1,5 +1,5 @@
 extends Label
-var time = 0
+@export var time = 0
 var timer_on = true
 @export var mils = 0
 @export var secs = 0
@@ -8,7 +8,7 @@ var timer_on = true
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if timer_on == true:
-		time += delta
+		time += delta 
 		
 	mils = fmod(time,1)*1000
 	secs = fmod(time,60)

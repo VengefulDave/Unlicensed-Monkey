@@ -14,11 +14,10 @@ var looking = false
 var shooting = false
 var HEALTH = 10
 
-
 func _physics_process(delta):
 	# Add the gravity.
-	if not is_on_floor():
-		velocity.y += gravity * delta
+	#if not is_on_floor():
+	velocity.y += gravity * delta
 	
 	if !$RayCastLeft.is_colliding() and is_on_floor() or $RayCastFLeft.is_colliding():
 		direction = 1
@@ -48,7 +47,15 @@ func _physics_process(delta):
 			gun.pause()
 	
 	if HEALTH <= 0:
+		var gmonkey = get_parent().find_child("Monkey")
+		$CanvasLayer/Elapsed_time.time -= 10
+		$CanvasLayer/timeminusplus.add_theme_color_override("font_color", Color(0,1,0))
+		$CanvasLayer/timeminusplus.add_theme_font_size_override("font_size",25)
+		$CanvasLayer/timeminusplus.text = "-10"
+		await get_tree().create_timer(3).timeout
+		$CanvasLayer/timeminusplus.text = ""
 		queue_free()
+		
 	
 	if monkey in $vision.get_overlapping_bodies():
 		looking = true
