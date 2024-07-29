@@ -1,8 +1,11 @@
 extends CharacterBody2D
+class_name monkey
 
+static var b_monkey_dead = false
 
 const SPEED = 200.0
 const JUMP_VELOCITY = -380.0
+
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -13,12 +16,13 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var shooting = false
 var reloading = false
 var x_knock_back = 1.5
-var y_knock_back = 3
+var y_knock_back = 9
 var bullet_count = 30
 var HEALTH = 100
 var shots_shot = 0
 var mag_reloaded = 0
 var healing = false
+var checkpoint = Vector2(450,120)
 
 
 func _physics_process(delta):
@@ -60,7 +64,7 @@ func _physics_process(delta):
 			var dis_diff = (position - get_global_mouse_position()).normalized()
 			position.x = position.x + (dis_diff.x * x_knock_back)
 			if not is_on_floor():
-				position.y = position.y + (dis_diff.y * y_knock_back)
+				velocity.y =+ velocity.y + (dis_diff.y * y_knock_back)
 			if $Cooldown.is_stopped():
 				$Cooldown.start()
 				var new_bullet = bullet.instantiate()
@@ -81,8 +85,8 @@ func _physics_process(delta):
 	if Input.is_action_pressed("R") and shooting == false and reloading == false:
 		reloading_gun()
 	
-	if HEALTH <= 0:
-		position = Vector2(450,100)
+	if HEALTH <= 0 or position.y > 1500:
+		position = checkpoint
 		HEALTH = 100
 		$CanvasLayer/Elapsed_time.time += 10
 		$CanvasLayer/timeminusplus.add_theme_color_override("font_color", Color(1,0,0))
@@ -90,7 +94,16 @@ func _physics_process(delta):
 		$CanvasLayer/timeminusplus.text = "+10"
 		await get_tree().create_timer(3).timeout
 		$CanvasLayer/timeminusplus.text = ""
-	
+	if b_monkey_dead == true:
+		$CanvasLayer/Elapsed_time.time -= 3
+		$CanvasLayer/timeminusplus.add_theme_color_override("font_color", Color(0,1,0))
+		$CanvasLayer/timeminusplus.add_theme_font_size_override("font_size",25)
+		$CanvasLayer/timeminusplus.text = "-3"
+		b_monkey_dead = false
+		await get_tree().create_timer(1).timeout
+		$CanvasLayer/timeminusplus.text = ""
+		
+		
 	# Handle jump.
 	if Input.is_action_pressed("Up") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
@@ -108,7 +121,7 @@ func _physics_process(delta):
 	
 	if $HealthTick.is_stopped() and healing == false and HEALTH > 0:
 		healing = true
-		HEALTH += 1
+		HEALTH += 3
 		$HealthTick.start()
 		healing = false
 	
@@ -130,10 +143,13 @@ func reloading_gun():
 func _on_area_2d_area_entered(area):
 	if area.is_in_group("bullet1"):
 		HEALTH -= 12
+		anim.play("Hit")
 	elif area.is_in_group("bullet2"):
 		HEALTH -= 2
+		anim.play("Hit")
 	elif area.is_in_group("bullet3"):
 		HEALTH -= 3
+		anim.play("Hit")
 	else:
 		pass
 	

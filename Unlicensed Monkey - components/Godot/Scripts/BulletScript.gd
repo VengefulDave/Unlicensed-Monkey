@@ -5,6 +5,8 @@ extends Area2D
 
 func _process(delta):
 	position += transform.x * speed * delta
+	await get_tree().create_timer(4.5).timeout
+	queue_free()
 	
 
 

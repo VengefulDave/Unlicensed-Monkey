@@ -1,18 +1,19 @@
 extends CharacterBody2D
 
-
 const SPEED = 6000
+
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var anim = $AnimatedSprite2D
 @onready var gun = $AnimatedSprite2D2
-@onready var monkey = get_parent().get_node("Monkey")
+@onready var gmonkey = get_parent().get_node("Monkey")
 @onready var bullet = preload("res://Prefab/ak_bullet.tscn")
 var direction = 1
 var looking = false
 var shooting = false
 var HEALTH = 10
+var hit = false
 
 func _physics_process(delta):
 	# Add the gravity.
@@ -43,27 +44,22 @@ func _physics_process(delta):
 			gun.play("Run")
 	else: 
 		if shooting == false:
-			anim.play("Idle")
+			if !$AnimatedSprite2D.animation == "Hit":
+				anim.play("Idle")
 			gun.pause()
 	
 	if HEALTH <= 0:
-		var gmonkey = get_parent().find_child("Monkey")
-		$CanvasLayer/Elapsed_time.time -= 10
-		$CanvasLayer/timeminusplus.add_theme_color_override("font_color", Color(0,1,0))
-		$CanvasLayer/timeminusplus.add_theme_font_size_override("font_size",25)
-		$CanvasLayer/timeminusplus.text = "-10"
-		await get_tree().create_timer(3).timeout
-		$CanvasLayer/timeminusplus.text = ""
+		monkey.b_monkey_dead = true
 		queue_free()
 		
 	
-	if monkey in $vision.get_overlapping_bodies():
+	if gmonkey in $vision.get_overlapping_bodies():
 		looking = true
-		$AnimatedSprite2D2.look_at(monkey.position)
-		if gun.global_position.x > monkey.global_position.x:
+		$AnimatedSprite2D2.look_at(gmonkey.position)
+		if gun.global_position.x > gmonkey.global_position.x:
 			gun.flip_h = true
 			gun.scale = Vector2(-1,-1)
-		elif gun.global_position.x < monkey.global_position.x:
+		elif gun.global_position.x < gmonkey.global_position.x:
 			gun.flip_h = false
 			gun.scale = Vector2(1,1)
 		shoot()
@@ -76,7 +72,8 @@ func _physics_process(delta):
 func monkey_walk():
 	direction = 0
 	$WalkTime.wait_time = randi_range(1,3)
-	await get_tree().create_timer(randi_range(1,3)).timeout
+	#Amount of time the monkey stands still \/
+	await get_tree().create_timer(randi_range(1,4)).timeout
 	if !abs(direction) > 0: 
 		direction = randi_range(-1,1)
 		$WalkTime.start()
@@ -101,5 +98,7 @@ func shoot():
 func _on_area_2d_area_entered(area):
 	if area.is_in_group("bullet"):
 		HEALTH -= 1
+		anim.play("Hit")
+		
 	pass
 	

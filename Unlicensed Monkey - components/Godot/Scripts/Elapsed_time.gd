@@ -5,6 +5,7 @@ var timer_on = true
 @export var secs = 0
 @export var mins = 0
 
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if timer_on == true:

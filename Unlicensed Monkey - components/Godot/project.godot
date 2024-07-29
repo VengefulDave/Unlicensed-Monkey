@@ -11,8 +11,14 @@ config_version=5
 [application]
 
 config/name="Unlicensed Monkey"
-run/main_scene="res://level_1.tscn"
+run/main_scene="res://Game.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
+
+[display]
+
+window/size/viewport_width=1240
+window/size/viewport_height=720
+window/stretch/mode="canvas_items"
 
 [input]
 
