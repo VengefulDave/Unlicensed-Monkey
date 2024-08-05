@@ -2,6 +2,7 @@ extends CharacterBody2D
 class_name monkey
 
 static var b_monkey_dead = false
+static var b_monkey_2_dead = false
 
 const SPEED = 200.0
 const JUMP_VELOCITY = -380.0
@@ -102,7 +103,14 @@ func _physics_process(delta):
 		b_monkey_dead = false
 		await get_tree().create_timer(1).timeout
 		$CanvasLayer/timeminusplus.text = ""
-		
+	if b_monkey_2_dead == true:
+		$CanvasLayer/Elapsed_time.time -= 4
+		$CanvasLayer/timeminusplus.add_theme_color_override("font_color", Color(0,1,0))
+		$CanvasLayer/timeminusplus.add_theme_font_size_override("font_size",25)
+		$CanvasLayer/timeminusplus.text = "-4"
+		b_monkey_2_dead = false
+		await get_tree().create_timer(1).timeout
+		$CanvasLayer/timeminusplus.text = ""
 		
 	# Handle jump.
 	if Input.is_action_pressed("Up") and is_on_floor():
@@ -119,14 +127,15 @@ func _physics_process(delta):
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 	
-	if $HealthTick.is_stopped() and healing == false and HEALTH > 0:
+	if $HealthTick.is_stopped() and healing == false and HEALTH > 0 and HEALTH < 100:
 		healing = true
-		HEALTH += 3
+		HEALTH += 2
 		$HealthTick.start()
 		healing = false
 	
 	$CanvasLayer/Ammo.value = bullet_count
 	$CanvasLayer/Health.value = HEALTH
+	$CanvasLayer/Health_counter.text = str(HEALTH)
 	
 	move_and_slide()
 	

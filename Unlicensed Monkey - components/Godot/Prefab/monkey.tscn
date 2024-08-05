@@ -508,11 +508,7 @@ animations = [{
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_prdu2"]
 radius = 11.0
-height = 62.0
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n3lei"]
-radius = 4.0
-height = 14.0
+height = 74.2857
 
 [sub_resource type="LabelSettings" id="LabelSettings_rtn6m"]
 font_size = 25
@@ -538,12 +534,15 @@ border_width_bottom = 10
 border_color = Color(0, 0, 0, 1)
 border_blend = true
 
+[sub_resource type="LabelSettings" id="LabelSettings_vss8s"]
+font_size = 28
+
 [node name="Monkey" type="CharacterBody2D"]
 script = ExtResource("1_t0f1g")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ojeem")
-animation = &"Fly"
+animation = &"Idle"
 autoplay = "Idle"
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -565,18 +564,8 @@ wait_time = 0.1
 one_shot = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 12)
+position = Vector2(0, 16)
 shape = SubResource("CapsuleShape2D_prdu2")
-
-[node name="RFoot" type="CollisionShape2D" parent="."]
-position = Vector2(11, 51)
-rotation = 1.5708
-shape = SubResource("CapsuleShape2D_n3lei")
-
-[node name="LFoot" type="CollisionShape2D" parent="."]
-position = Vector2(-11, 51)
-rotation = 1.5708
-shape = SubResource("CapsuleShape2D_n3lei")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 2
@@ -621,10 +610,20 @@ offset_bottom = 38.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 0
 
+[node name="Health_counter" type="Label" parent="CanvasLayer"]
+offset_left = 19.0
+offset_top = 434.0
+offset_right = 67.0
+offset_bottom = 473.0
+text = "100"
+label_settings = SubResource("LabelSettings_vss8s")
+horizontal_alignment = 1
+
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D4" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(0, 12)
+position = Vector2(0, 16)
+scale = Vector2(1.1, 1.05)
 shape = SubResource("CapsuleShape2D_prdu2")
 
 [node name="HealthTick" type="Timer" parent="."]
