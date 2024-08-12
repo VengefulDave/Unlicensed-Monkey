@@ -23,8 +23,7 @@ var HEALTH = 100
 var shots_shot = 0
 var mag_reloaded = 0
 var healing = false
-var checkpoint = Vector2(450,120)
-
+var checkpoint = Vector2(450,120) 
 
 func _physics_process(delta):
 	# Add the gravity.
@@ -100,6 +99,8 @@ func _physics_process(delta):
 		$CanvasLayer/timeminusplus.add_theme_color_override("font_color", Color(0,1,0))
 		$CanvasLayer/timeminusplus.add_theme_font_size_override("font_size",25)
 		$CanvasLayer/timeminusplus.text = "-3"
+		if HEALTH < 100:
+			HEALTH += 1
 		b_monkey_dead = false
 		await get_tree().create_timer(1).timeout
 		$CanvasLayer/timeminusplus.text = ""
@@ -108,6 +109,8 @@ func _physics_process(delta):
 		$CanvasLayer/timeminusplus.add_theme_color_override("font_color", Color(0,1,0))
 		$CanvasLayer/timeminusplus.add_theme_font_size_override("font_size",25)
 		$CanvasLayer/timeminusplus.text = "-4"
+		if HEALTH < 100:
+			HEALTH += 2
 		b_monkey_2_dead = false
 		await get_tree().create_timer(1).timeout
 		$CanvasLayer/timeminusplus.text = ""
@@ -129,13 +132,15 @@ func _physics_process(delta):
 	
 	if $HealthTick.is_stopped() and healing == false and HEALTH > 0 and HEALTH < 100:
 		healing = true
-		HEALTH += 2
+		HEALTH += 3
 		$HealthTick.start()
 		healing = false
 	
 	$CanvasLayer/Ammo.value = bullet_count
 	$CanvasLayer/Health.value = HEALTH
 	$CanvasLayer/Health_counter.text = str(HEALTH)
+	if HEALTH > 100:
+		HEALTH = 100
 	
 	move_and_slide()
 	
@@ -151,7 +156,7 @@ func reloading_gun():
 
 func _on_area_2d_area_entered(area):
 	if area.is_in_group("bullet1"):
-		HEALTH -= 12
+		HEALTH -= 9
 		anim.play("Hit")
 	elif area.is_in_group("bullet2"):
 		HEALTH -= 2
@@ -161,4 +166,16 @@ func _on_area_2d_area_entered(area):
 		anim.play("Hit")
 	else:
 		pass
+	
+
+func _on_area_2d_body_entered(body):
+	if body.name == "Monkey":
+		checkpoint = Vector2(11300,-2200)
+		position = checkpoint
+
+
+func _on_area_2d_2_body_entered(body):
+	if body.name == "Monkey":
+		checkpoint = Vector2(0, 0)
+		position = checkpoint
 	

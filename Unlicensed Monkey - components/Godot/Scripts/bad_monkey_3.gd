@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-const SPEED = 6500
+const SPEED = 6000
 
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
@@ -12,7 +12,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var direction = 1
 var looking = false
 var shooting = false
-var HEALTH = 10
+var HEALTH = 20
 var hit = false
 
 func _physics_process(delta):
@@ -31,15 +31,17 @@ func _physics_process(delta):
 	velocity.x = direction * SPEED * delta
 
 	if velocity.x > 0:
-		anim.play("Run Right")
-		if looking == false and shooting == false:
-			gun.flip_h = false
-			gun.rotation = 0
-			gun.play("Run")
-	elif velocity.x < 0:
+		$AnimatedSprite2D.flip_h = true
 		anim.play("Run Left")
 		if looking == false and shooting == false:
 			gun.flip_h = true
+			gun.rotation = 0
+			gun.play("Run")
+	elif velocity.x < 0:
+		$AnimatedSprite2D.flip_h = false
+		anim.play("Run Left")
+		if looking == false and shooting == false:
+			gun.flip_h = false
 			gun.rotation = 0
 			gun.play("Run")
 	else: 
@@ -49,7 +51,7 @@ func _physics_process(delta):
 			gun.pause()
 	
 	if HEALTH <= 0:
-		monkey.b_monkey_2_dead = true
+		monkey.b_monkey_dead = true
 		queue_free()
 		
 	
@@ -57,22 +59,22 @@ func _physics_process(delta):
 		looking = true
 		$AnimatedSprite2D2.look_at(gmonkey.position)
 		if gun.global_position.x > gmonkey.global_position.x:
-			gun.flip_h = true
+			gun.flip_h = false
 			gun.scale = Vector2(-1,-1)
 		elif gun.global_position.x < gmonkey.global_position.x:
-			gun.flip_h = false
+			gun.flip_h = true
 			gun.scale = Vector2(1,1)
 		shoot()
 	else:
 		looking = false
 		gun.scale = Vector2(1,1)
-		
+	
 	if gmonkey not in $vision.get_overlapping_bodies() and $AnimatedSprite2D2.animation == "Shoot":
 		gun.scale = Vector2(1,1)
 		looking = false
 		gun.stop()
 		shooting = false
-	
+		
 	move_and_slide()
 
 func monkey_walk():
@@ -85,16 +87,14 @@ func monkey_walk():
 		$WalkTime.start()
 
 func shoot():
-	$ShootCool.wait_time = randf_range(2,3)
 	if $ShootCool.is_stopped():
 		shooting = true
-		for i in (9):
-			var new_bullet = bullet.instantiate()
-			new_bullet.add_to_group("bullet2")
-			new_bullet.look_at((position - get_global_mouse_position())*-1)
-			new_bullet.position = gun.global_position 
-			new_bullet.rotation = gun.rotation + randf_range(-0.1,0.1)
-			get_parent().add_child(new_bullet)
+		var new_bullet = bullet.instantiate()
+		new_bullet.add_to_group("bullet3")
+		new_bullet.look_at((position - get_global_mouse_position())*-1)
+		new_bullet.position = gun.global_position 
+		new_bullet.rotation = gun.rotation + randf_range(-0.1,0.1)
+		get_parent().add_child(new_bullet)
 		gun.play("Shoot")
 		$ShootCool.start()
 	else:
@@ -109,5 +109,3 @@ func _on_area_2d_area_entered(area):
 		
 	pass
 	
-
-

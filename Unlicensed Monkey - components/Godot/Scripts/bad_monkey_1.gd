@@ -67,6 +67,12 @@ func _physics_process(delta):
 		looking = false
 		gun.scale = Vector2(1,1)
 		
+	if gmonkey not in $vision.get_overlapping_bodies() and $AnimatedSprite2D2.animation == "Shoot":
+		gun.scale = Vector2(1,1)
+		looking = false
+		gun.stop()
+		shooting = false
+		
 	move_and_slide()
 
 func monkey_walk():
