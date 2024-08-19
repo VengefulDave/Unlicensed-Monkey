@@ -88,6 +88,8 @@ func shoot():
 	$ShootCool.wait_time = randf_range(1,2.5)
 	if $ShootCool.is_stopped():
 		shooting = true
+		$GunShoot.pitch_scale = randf_range(0.6,1.4)
+		$GunShoot.play()
 		var new_bullet = bullet.instantiate()
 		new_bullet.add_to_group("bullet1")
 		new_bullet.look_at((position - get_global_mouse_position())*-1)

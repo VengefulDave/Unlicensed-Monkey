@@ -90,6 +90,8 @@ func monkey_walk():
 func shoot():
 	if $ShootCool.is_stopped():
 		shooting = true
+		$GunShoot.pitch_scale = randf_range(0.9,1)
+		$GunShoot.play()
 		var new_bullet = bullet.instantiate()
 		new_bullet.add_to_group("bullet3")
 		new_bullet.look_at((position - get_global_mouse_position())*-1)

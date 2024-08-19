@@ -1,8 +1,9 @@
-[gd_scene load_steps=30 format=3 uid="uid://beboqc8cyfled"]
+[gd_scene load_steps=31 format=3 uid="uid://beboqc8cyfled"]
 
 [ext_resource type="Script" path="res://Scripts/bad_monkey_3.gd" id="1_t3rx8"]
 [ext_resource type="Texture2D" uid="uid://dgc681qfuccax" path="res://Sprites/Bad_Monkey_3.03.png" id="2_bc21k"]
 [ext_resource type="Texture2D" uid="uid://cjm4na4xhtyxh" path="res://Sprites/Bad_Monkey_3_Gun0.1.png" id="3_pj3eq"]
+[ext_resource type="AudioStream" uid="uid://tx2jhlruin14" path="res://Music/Sound/147901__tcawte__minigun.mp3" id="4_jyr8r"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_62fsb"]
 atlas = ExtResource("2_bc21k")
@@ -259,5 +260,10 @@ shape = SubResource("CapsuleShape2D_p00nq")
 wait_time = 3.0
 one_shot = true
 autostart = true
+
+[node name="GunShoot" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_jyr8r")
+volume_db = -48.0
+max_polyphony = 10
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

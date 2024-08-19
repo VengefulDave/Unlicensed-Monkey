@@ -22,9 +22,8 @@ var y_knock_back = 9
 var bullet_count = 30
 var HEALTH = 100
 var healing = false
-#var checkpoint = Vector2(450,120) 
-#
-var checkpoint = Vector2(35000,0)
+var music_play = false
+var checkpoint = Vector2(450,120) 
 
 static var monkeys_killed = 0
 static var shots_shot = 0
@@ -32,6 +31,14 @@ static var mag_reloaded = 0
 
 
 func _physics_process(delta):
+	if music_play == false:
+		var chance = randi_range(0,1)
+		if chance == 1:
+			$Background1.play()
+		if chance == 0:
+			$Background2.play()
+		music_play = true
+	
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y += gravity * delta
@@ -64,7 +71,6 @@ func _physics_process(delta):
 	if Input.is_action_pressed("Left Click"):
 		if bullet_count > 0 and reloading == false:
 			shooting = true
-			gun.play("Shoot")
 			if shooting == true and not is_on_floor():
 				anim.play("Fly")
 			var dis_diff = (position - get_global_mouse_position()).normalized()
@@ -73,6 +79,8 @@ func _physics_process(delta):
 				velocity.y =+ velocity.y + (dis_diff.y * y_knock_back)
 			if $Cooldown.is_stopped():
 				$Cooldown.start()
+				$GunShoot.pitch_scale = randf_range(0.9,1.1)
+				$GunShoot.play()
 				var new_bullet = bullet.instantiate()
 				new_bullet.look_at((position - get_global_mouse_position())*-1)
 				new_bullet.position = gun.global_position 
@@ -171,6 +179,7 @@ func _physics_process(delta):
 	
 func reloading_gun():
 	reloading = true
+	$ReloadS.play()
 	gun.play("Reload")
 	await get_tree().create_timer(2).timeout
 	bullet_count = 30
@@ -211,3 +220,11 @@ func _on_area_2d_3_body_entered(body):
 		
 func end_game():
 	get_tree().change_scene_to_file("res://GameOver.tscn")
+
+
+func _on_background_2_finished():
+	music_play = false
+
+
+func _on_background_1_finished():
+	music_play = false

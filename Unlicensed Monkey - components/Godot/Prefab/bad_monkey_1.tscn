@@ -1,9 +1,10 @@
-[gd_scene load_steps=41 format=3 uid="uid://cp6mfire2cqrl"]
+[gd_scene load_steps=42 format=3 uid="uid://cp6mfire2cqrl"]
 
 [ext_resource type="Script" path="res://Scripts/bad_monkey_1.gd" id="1_uhrf3"]
 [ext_resource type="Texture2D" uid="uid://c4wq5358v81gw" path="res://Sprites/Bad Monkey 1.png" id="2_362lu"]
 [ext_resource type="Texture2D" uid="uid://dlrkcrh8j5k0k" path="res://Sprites/Bad Monkey Gun Walk.png" id="3_akurs"]
 [ext_resource type="Texture2D" uid="uid://bt1v2x3bndfoo" path="res://Sprites/Bad Monkey Gun Shoot.png" id="4_obwr8"]
+[ext_resource type="AudioStream" uid="uid://ut5hi0saw0eu" path="res://Music/Sound/509429__seanmorrissey96__desert_eagle.wav" id="5_37aj6"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0qqka"]
 atlas = ExtResource("2_362lu")
@@ -335,5 +336,10 @@ shape = SubResource("CapsuleShape2D_1ybsn")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 17)
 shape = SubResource("CapsuleShape2D_1ybsn")
+
+[node name="GunShoot" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_37aj6")
+volume_db = -45.0
+pitch_scale = 0.5
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

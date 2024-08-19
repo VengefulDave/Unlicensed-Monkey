@@ -1,4 +1,4 @@
-[gd_scene load_steps=71 format=3 uid="uid://d33g786o3f7uw"]
+[gd_scene load_steps=75 format=3 uid="uid://d33g786o3f7uw"]
 
 [ext_resource type="Script" path="res://Scripts/MonkeyScript.gd" id="1_t0f1g"]
 [ext_resource type="Texture2D" uid="uid://cn06emudlcujp" path="res://Sprites/Monkey.05.png" id="2_b1sbo"]
@@ -7,6 +7,10 @@
 [ext_resource type="Texture2D" uid="uid://we8788s0s7mj" path="res://Sprites/Gun Shoot.png" id="4_g5g7t"]
 [ext_resource type="Texture2D" uid="uid://c7rf7me6ceb1w" path="res://Sprites/Gun Reload.png" id="4_yji1s"]
 [ext_resource type="Texture2D" uid="uid://b32u8l8fo1hh2" path="res://Sprites/Gun Walk.png" id="5_k4vub"]
+[ext_resource type="AudioStream" uid="uid://ciw37x8g7uwq6" path="res://Music/Jungle Call.mp3" id="8_6uk6j"]
+[ext_resource type="AudioStream" uid="uid://ctev0jpe6r0a7" path="res://Music/Monkey Shadows.mp3" id="9_t1w1p"]
+[ext_resource type="AudioStream" uid="uid://dnjq2qqvgq56d" path="res://Music/Sound/163457__lemudcrab__ak47-shot.wav" id="10_rde36"]
+[ext_resource type="AudioStream" uid="uid://7mxru0007hjl" path="res://Music/Sound/Csgo Ak-47 Reload Sound effect.mp3" id="11_phhmg"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_b4qer"]
 atlas = ExtResource("2_b1sbo")
@@ -631,4 +635,24 @@ wait_time = 4.0
 one_shot = true
 autostart = true
 
+[node name="Background1" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_6uk6j")
+volume_db = -45.0
+
+[node name="Background2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_t1w1p")
+volume_db = -45.0
+
+[node name="GunShoot" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("10_rde36")
+volume_db = -45.0
+max_polyphony = 15
+
+[node name="ReloadS" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("11_phhmg")
+volume_db = -10.0
+max_polyphony = 15
+
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="finished" from="Background1" to="." method="_on_background_1_finished"]
+[connection signal="finished" from="Background2" to="." method="_on_background_2_finished"]

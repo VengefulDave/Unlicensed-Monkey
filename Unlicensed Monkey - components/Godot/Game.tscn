@@ -521,12 +521,6 @@ color = Color(0.829464, 0.375128, 0.970815, 1)
 hue_variation_min = 0.2
 hue_variation_max = 1.0
 
-[node name="Bad_Monkey_39" parent="." instance=ExtResource("8_vhiha")]
-position = Vector2(321, 109)
-
-[node name="Bad_Monkey_40" parent="." instance=ExtResource("8_vhiha")]
-position = Vector2(594, 108)
-
 [connection signal="body_entered" from="Area2D" to="Monkey" method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="Area2D2" to="Monkey" method="_on_area_2d_2_body_entered"]
 [connection signal="body_entered" from="Area2D3" to="Monkey" method="_on_area_2d_3_body_entered"]

@@ -88,6 +88,8 @@ func shoot():
 	$ShootCool.wait_time = randf_range(2,3)
 	if $ShootCool.is_stopped():
 		shooting = true
+		$GunShoot.pitch_scale = randf_range(0.5,1.2)
+		$GunShoot.play()
 		for i in (9):
 			var new_bullet = bullet.instantiate()
 			new_bullet.add_to_group("bullet2")
