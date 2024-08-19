@@ -23,5 +23,8 @@ func _on_body_entered(body):
 	if body.name == "Monkey":
 		await get_tree().create_timer(0.05).timeout
 		queue_free()
-	queue_free()
-	
+	if body is badmonkey3 and is_in_group("bullet3"):
+		pass
+	else:
+		queue_free()
+		

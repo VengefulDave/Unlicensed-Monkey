@@ -3,6 +3,7 @@ class_name monkey
 
 static var b_monkey_dead = false
 static var b_monkey_2_dead = false
+static var b_monkey_3_dead = false
 
 const SPEED = 200.0
 const JUMP_VELOCITY = -380.0
@@ -20,10 +21,15 @@ var x_knock_back = 1.5
 var y_knock_back = 9
 var bullet_count = 30
 var HEALTH = 100
-var shots_shot = 0
-var mag_reloaded = 0
 var healing = false
-var checkpoint = Vector2(450,120) 
+#var checkpoint = Vector2(450,120) 
+#
+var checkpoint = Vector2(35000,0)
+
+static var monkeys_killed = 0
+static var shots_shot = 0
+static var mag_reloaded = 0
+
 
 func _physics_process(delta):
 	# Add the gravity.
@@ -94,7 +100,9 @@ func _physics_process(delta):
 		$CanvasLayer/timeminusplus.text = "+10"
 		await get_tree().create_timer(3).timeout
 		$CanvasLayer/timeminusplus.text = ""
+	
 	if b_monkey_dead == true:
+		monkeys_killed += 1
 		$CanvasLayer/Elapsed_time.time -= 3
 		$CanvasLayer/timeminusplus.add_theme_color_override("font_color", Color(0,1,0))
 		$CanvasLayer/timeminusplus.add_theme_font_size_override("font_size",25)
@@ -104,7 +112,9 @@ func _physics_process(delta):
 		b_monkey_dead = false
 		await get_tree().create_timer(1).timeout
 		$CanvasLayer/timeminusplus.text = ""
+	
 	if b_monkey_2_dead == true:
+		monkeys_killed += 1
 		$CanvasLayer/Elapsed_time.time -= 4
 		$CanvasLayer/timeminusplus.add_theme_color_override("font_color", Color(0,1,0))
 		$CanvasLayer/timeminusplus.add_theme_font_size_override("font_size",25)
@@ -114,7 +124,20 @@ func _physics_process(delta):
 		b_monkey_2_dead = false
 		await get_tree().create_timer(1).timeout
 		$CanvasLayer/timeminusplus.text = ""
-		
+	
+	if b_monkey_3_dead == true:
+		monkeys_killed += 1
+		$CanvasLayer/Elapsed_time.time -= 8
+		$CanvasLayer/timeminusplus.add_theme_color_override("font_color", Color(0,1,0))
+		$CanvasLayer/timeminusplus.add_theme_font_size_override("font_size",25)
+		$CanvasLayer/timeminusplus.text = "-8"
+		if HEALTH < 100:
+			HEALTH += 8
+		b_monkey_3_dead = false
+		await get_tree().create_timer(1).timeout
+		$CanvasLayer/timeminusplus.text = ""
+	
+	
 	# Handle jump.
 	if Input.is_action_pressed("Up") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
@@ -139,6 +162,7 @@ func _physics_process(delta):
 	$CanvasLayer/Ammo.value = bullet_count
 	$CanvasLayer/Health.value = HEALTH
 	$CanvasLayer/Health_counter.text = str(HEALTH)
+	
 	if HEALTH > 100:
 		HEALTH = 100
 	
@@ -156,13 +180,13 @@ func reloading_gun():
 
 func _on_area_2d_area_entered(area):
 	if area.is_in_group("bullet1"):
-		HEALTH -= 9
+		HEALTH -= 7
 		anim.play("Hit")
 	elif area.is_in_group("bullet2"):
 		HEALTH -= 2
 		anim.play("Hit")
 	elif area.is_in_group("bullet3"):
-		HEALTH -= 3
+		HEALTH -= 1
 		anim.play("Hit")
 	else:
 		pass
@@ -173,9 +197,17 @@ func _on_area_2d_body_entered(body):
 		checkpoint = Vector2(11300,-2200)
 		position = checkpoint
 
-
 func _on_area_2d_2_body_entered(body):
 	if body.name == "Monkey":
-		checkpoint = Vector2(0, 0)
+		checkpoint = Vector2(22000, -1500)
 		position = checkpoint
 	
+
+func _on_area_2d_3_body_entered(body):
+	if body.name == "Monkey":
+		game_timer.timer_on = false
+		await get_tree().create_timer(0.5).timeout
+		end_game()
+		
+func end_game():
+	get_tree().change_scene_to_file("res://GameOver.tscn")

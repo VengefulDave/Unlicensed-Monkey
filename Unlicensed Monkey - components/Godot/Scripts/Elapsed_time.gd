@@ -1,6 +1,8 @@
 extends Label
-@export var time = 0
-var timer_on = true
+class_name game_timer
+
+static var time = 0
+static var timer_on = true
 @export var mils = 0
 @export var secs = 0
 @export var mins = 0

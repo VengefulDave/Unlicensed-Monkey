@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name badmonkey3
 
 const SPEED = 6000
 
@@ -12,7 +13,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var direction = 1
 var looking = false
 var shooting = false
-var HEALTH = 20
+var HEALTH = 24
 var hit = false
 
 func _physics_process(delta):
@@ -51,7 +52,7 @@ func _physics_process(delta):
 			gun.pause()
 	
 	if HEALTH <= 0:
-		monkey.b_monkey_dead = true
+		monkey.b_monkey_3_dead = true
 		queue_free()
 		
 	
