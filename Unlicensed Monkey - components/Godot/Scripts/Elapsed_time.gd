@@ -12,7 +12,8 @@ static var timer_on = true
 func _process(delta):
 	if timer_on == true:
 		time += delta 
-		
+	
+	#Converts to mils,secs,mins
 	mils = fmod(time,1)*1000
 	secs = fmod(time,60)
 	mins = fmod(time,60*60) / 60

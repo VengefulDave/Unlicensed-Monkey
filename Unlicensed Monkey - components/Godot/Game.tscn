@@ -6,7 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://ik0uj6vye5i6" path="res://images/23.5146_original.png" id="4_ffs82"]
 [ext_resource type="Texture2D" uid="uid://dlwtjq6h32prg" path="res://images/23.5146_original - Copy.png" id="5_df6hj"]
 [ext_resource type="PackedScene" uid="uid://rdfm1hslnqwx" path="res://Prefab/bad_monkey_2.tscn" id="6_ommyh"]
-[ext_resource type="Script" path="res://Scripts/portal.gd" id="7_ad38n"]
 [ext_resource type="PackedScene" uid="uid://beboqc8cyfled" path="res://Prefab/bad_monkey_3.tscn" id="8_vhiha"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qcyp1"]
@@ -176,7 +175,10 @@ physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_qcyp1")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rl7mx"]
-radius = 243.008
+radius = 53.1507
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jh31u"]
+radius = 495.259
 
 [node name="Game" type="Node2D"]
 
@@ -362,9 +364,8 @@ position = Vector2(17987, -345)
 position = Vector2(7537, 1277)
 metadata/_edit_group_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D1" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_rl7mx")
-script = ExtResource("7_ad38n")
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Area2D"]
 amount = 100
@@ -390,9 +391,8 @@ hue_variation_max = 1.0
 position = Vector2(17917, -62)
 metadata/_edit_group_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D2"]
 shape = SubResource("CircleShape2D_rl7mx")
-script = ExtResource("7_ad38n")
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Area2D2"]
 amount = 100
@@ -493,11 +493,6 @@ position = Vector2(32862, 29)
 position = Vector2(34592, 1298)
 metadata/_edit_group_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D3"]
-position = Vector2(1, -591)
-shape = SubResource("CircleShape2D_rl7mx")
-script = ExtResource("7_ad38n")
-
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Area2D3"]
 position = Vector2(2, -592)
 amount = 150
@@ -520,6 +515,10 @@ scale_amount_max = 5.0
 color = Color(0.829464, 0.375128, 0.970815, 1)
 hue_variation_min = 0.2
 hue_variation_max = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D3"]
+position = Vector2(2, -592)
+shape = SubResource("CircleShape2D_jh31u")
 
 [connection signal="body_entered" from="Area2D" to="Monkey" method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="Area2D2" to="Monkey" method="_on_area_2d_2_body_entered"]

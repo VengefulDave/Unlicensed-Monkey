@@ -14,6 +14,7 @@ func _ready():
 	var secs = fmod(time,60)
 	var mins = fmod(time,60*60) / 60
 	
+	#Sets endgame screen to stats got this game
 	var time_passed =  "%02d : %02d : %03d" % [mins,secs,mils]
 	$CanvasLayer/Time_Taken.text = "Time taken - " + str(time_passed)
 	$CanvasLayer/Bullets_Shot.text = "Bullets shot - " + str(monkey.shots_shot)
@@ -23,7 +24,7 @@ func _ready():
 	loaddata()
 	save()
 	
-
+#Saves current game stats for future runs
 func save():
 	var file = FileAccess.open(save_path, FileAccess.WRITE)
 	file.store_var(mk)
@@ -31,6 +32,7 @@ func save():
 	file.store_var(ss)
 	file.store_var(t)
 
+#Loads previous game stats to compare
 func loaddata():
 	if FileAccess.file_exists(save_path):
 		var file = FileAccess.open(save_path, FileAccess.READ)

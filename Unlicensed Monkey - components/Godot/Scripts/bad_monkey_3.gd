@@ -21,16 +21,19 @@ func _physics_process(delta):
 	#if not is_on_floor():
 	velocity.y += gravity * delta
 	
+	#Checks if is about to walk of the edge of map
 	if !$RayCastLeft.is_colliding() and is_on_floor() or $RayCastFLeft.is_colliding():
 		direction = 1
 	elif !$RayCastRight.is_colliding() and is_on_floor() or $RayCastFRight.is_colliding():
 		direction = -1
 	
+	#Cooldown before moving around
 	if $WalkTime.is_stopped():
 		monkey_walk()
 	
 	velocity.x = direction * SPEED * delta
-
+	
+	#Decides direction of animation on where its traveling
 	if velocity.x > 0:
 		$AnimatedSprite2D.flip_h = true
 		anim.play("Run Left")
@@ -51,11 +54,12 @@ func _physics_process(delta):
 				anim.play("Idle")
 			gun.pause()
 	
+	#Checks if it has no health- sends signal to player script that they killed an enemy
 	if HEALTH <= 0:
 		monkey.b_monkey_3_dead = true
 		queue_free()
 		
-	
+	#Checks if the player is in its vision area
 	if gmonkey in $vision.get_overlapping_bodies():
 		looking = true
 		$AnimatedSprite2D2.look_at(gmonkey.position)
@@ -69,7 +73,8 @@ func _physics_process(delta):
 	else:
 		looking = false
 		gun.scale = Vector2(1,1)
-	
+		
+	#Resets the enemy if the player isnt in its vision but its still shooting
 	if gmonkey not in $vision.get_overlapping_bodies() and $AnimatedSprite2D2.animation == "Shoot":
 		gun.scale = Vector2(1,1)
 		looking = false
@@ -78,6 +83,7 @@ func _physics_process(delta):
 		
 	move_and_slide()
 
+#Randomizes walk time and direction
 func monkey_walk():
 	direction = 0
 	$WalkTime.wait_time = randi_range(1,3)
@@ -87,11 +93,13 @@ func monkey_walk():
 		direction = randi_range(-1,1)
 		$WalkTime.start()
 
+#Controls shooting
 func shoot():
 	if $ShootCool.is_stopped():
 		shooting = true
 		$GunShoot.pitch_scale = randf_range(0.9,1)
 		$GunShoot.play()
+		#Adds a copy of bullet to scene as child
 		var new_bullet = bullet.instantiate()
 		new_bullet.add_to_group("bullet3")
 		new_bullet.look_at((position - get_global_mouse_position())*-1)
@@ -103,8 +111,7 @@ func shoot():
 	else:
 		shooting = false
 		
-		
-
+#Checks whether the player shot the enemy
 func _on_area_2d_area_entered(area):
 	if area.is_in_group("bullet"):
 		HEALTH -= 1
