@@ -1,0 +1,91 @@
+[gd_scene load_steps=3 format=3 uid="uid://b5qteassb6570"]
+
+[ext_resource type="Script" path="res://Scripts/GameOver.gd" id="1_6wqj3"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_v7ytk"]
+font_size = 35
+
+[node name="GameOver" type="Node2D"]
+script = ExtResource("1_6wqj3")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Time_Taken" type="Label" parent="CanvasLayer"]
+offset_top = 120.0
+offset_right = 200.0
+offset_bottom = 189.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Test"
+label_settings = SubResource("LabelSettings_v7ytk")
+
+[node name="Bullets_Shot" type="Label" parent="CanvasLayer"]
+offset_top = 200.0
+offset_right = 200.0
+offset_bottom = 269.0
+text = "Test"
+label_settings = SubResource("LabelSettings_v7ytk")
+
+[node name="Magazines_Reloaded" type="Label" parent="CanvasLayer"]
+offset_top = 280.0
+offset_right = 200.0
+offset_bottom = 349.0
+text = "Test"
+label_settings = SubResource("LabelSettings_v7ytk")
+
+[node name="Monkeys_Defeated" type="Label" parent="CanvasLayer"]
+offset_top = 360.0
+offset_right = 200.0
+offset_bottom = 429.0
+text = "Test"
+label_settings = SubResource("LabelSettings_v7ytk")
+
+[node name="Static" type="Label" parent="CanvasLayer"]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 281.0
+offset_bottom = 79.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Current Results:"
+label_settings = SubResource("LabelSettings_v7ytk")
+
+[node name="Time_Taken2" type="Label" parent="CanvasLayer"]
+offset_left = 700.0
+offset_top = 120.0
+offset_right = 900.0
+offset_bottom = 189.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+label_settings = SubResource("LabelSettings_v7ytk")
+
+[node name="Bullets_Shot2" type="Label" parent="CanvasLayer"]
+offset_left = 700.0
+offset_top = 200.0
+offset_right = 900.0
+offset_bottom = 269.0
+label_settings = SubResource("LabelSettings_v7ytk")
+
+[node name="Magazines_Reloaded2" type="Label" parent="CanvasLayer"]
+offset_left = 700.0
+offset_top = 280.0
+offset_right = 900.0
+offset_bottom = 349.0
+label_settings = SubResource("LabelSettings_v7ytk")
+
+[node name="Monkeys_Defeated2" type="Label" parent="CanvasLayer"]
+offset_left = 700.0
+offset_top = 360.0
+offset_right = 900.0
+offset_bottom = 429.0
+label_settings = SubResource("LabelSettings_v7ytk")
+
+[node name="Static2" type="Label" parent="CanvasLayer"]
+offset_left = 700.0
+offset_top = 10.0
+offset_right = 971.0
+offset_bottom = 79.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Previous Score:"
+label_settings = SubResource("LabelSettings_v7ytk")
